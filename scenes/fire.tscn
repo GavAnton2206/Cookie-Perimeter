@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://btvy82csfmv0"]
+
+[ext_resource type="Texture2D" uid="uid://c3kll06bvus47" path="res://assets/sprites/cell_fire.png" id="1_xqmqg"]
+[ext_resource type="Script" uid="uid://bwn7im5s04qmc" path="res://scripts/Object.gd" id="2_g5mbl"]
+
+[node name="Fire" type="Sprite2D"]
+texture = ExtResource("1_xqmqg")
+script = ExtResource("2_g5mbl")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdqcgrcagw5cc"]
+
+[ext_resource type="Texture2D" uid="uid://cqrisqmvf5l7c" path="res://assets/sprites/cookie.png" id="1_yys3m"]
+[ext_resource type="Script" uid="uid://bwn7im5s04qmc" path="res://scripts/Object.gd" id="2_2rrt0"]
+
+[node name="Cookie" type="Sprite2D"]
+scale = Vector2(0.114258, 0.114258)
+texture = ExtResource("1_yys3m")
+script = ExtResource("2_2rrt0")
