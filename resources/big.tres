@@ -1,0 +1,38 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bykjffih5ec3k"]
+
+[ext_resource type="FontFile" uid="uid://bcmdynj2685x1" path="res://assets/fonts/Boldonse-Regular.ttf" id="1_o8pd4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o8pd4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o8pd4"]
+bg_color = Color(0.87073, 0.444197, 0.565065, 1)
+border_width_bottom = 10
+border_color = Color(0.714351, 0.284404, 0.419979, 1)
+corner_radius_top_left = 200
+corner_radius_top_right = 200
+corner_radius_bottom_right = 200
+corner_radius_bottom_left = 200
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1i2b"]
+bg_color = Color(0.87073, 0.444197, 0.565065, 1)
+border_width_top = 10
+border_color = Color(0.713726, 0.286275, 0.419608, 0)
+corner_radius_top_left = 200
+corner_radius_top_right = 200
+corner_radius_bottom_right = 200
+corner_radius_bottom_left = 200
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i71n2"]
+bg_color = Color(0.619608, 0.560784, 0.764706, 1)
+
+[resource]
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("1_o8pd4")
+Button/styles/focus = SubResource("StyleBoxEmpty_o8pd4")
+Button/styles/hover = SubResource("StyleBoxFlat_o8pd4")
+Button/styles/normal = SubResource("StyleBoxFlat_o8pd4")
+Button/styles/pressed = SubResource("StyleBoxFlat_o1i2b")
+Label/colors/font_color = Color(0.933333, 0.658824, 0.27451, 1)
+Label/font_sizes/font_size = 80
+Label/fonts/font = ExtResource("1_o8pd4")
+Panel/styles/panel = SubResource("StyleBoxFlat_i71n2")

@@ -13,7 +13,23 @@ config_version=5
 config/name="Cookie Perimeter"
 run/main_scene="uid://dsslb45mtck1k"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0.528783, 0.56592, 0.85984, 1)
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://assets/sprites/icon.svg"
+
+[autoload]
+
+Music="*res://scenes/music.tscn"
+
+[display]
+
+window/stretch/mode="viewport"
+
+[dotnet]
+
+project/assembly_name="Cookie Perimeter"
 
 [input]
 

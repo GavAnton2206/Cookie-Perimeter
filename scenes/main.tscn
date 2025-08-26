@@ -1,13 +1,28 @@
-[gd_scene load_steps=11 format=4 uid="uid://dsslb45mtck1k"]
+[gd_scene load_steps=23 format=4 uid="uid://dsslb45mtck1k"]
 
 [ext_resource type="Texture2D" uid="uid://jp05iwlxdkm4" path="res://assets/sprites/cell.png" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://cqrisqmvf5l7c" path="res://assets/sprites/cookie.png" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://dxilgerafbfoi" path="res://assets/sprites/cursor.png" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://dvnljhg2ndabm" path="res://scripts/GameManager.gd" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://c3fnf1a11i7y2" path="res://scripts/Cursor.gd" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://c2hqfiaxwtqho" path="res://scripts/Sounds.gd" id="4_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://cdqcgrcagw5cc" path="res://scenes/cookie.tscn" id="5_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://bdvkgq7m62ghh" path="res://assets/sounds/ui/shuffle.wav" id="5_trceg"]
+[ext_resource type="AudioStream" uid="uid://ja7w2tu07j47" path="res://assets/sounds/ui/pop.wav" id="6_a8y0u"]
 [ext_resource type="Theme" uid="uid://cgwav3t3a2g5g" path="res://resources/default.tres" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://btvy82csfmv0" path="res://scenes/fire.tscn" id="6_tipki"]
+[ext_resource type="AudioStream" uid="uid://cl23mrcqssmhk" path="res://assets/sounds/game_end/Win1.wav" id="7_muem4"]
+[ext_resource type="AudioStream" uid="uid://coy0ktlbb86xs" path="res://assets/sounds/game_end/Win2.wav" id="8_dp3eg"]
+[ext_resource type="AudioStream" uid="uid://bneci758j66d6" path="res://assets/sounds/game_end/Win3.wav" id="9_0ld40"]
+[ext_resource type="Theme" uid="uid://bykjffih5ec3k" path="res://resources/big.tres" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://4ckrup328d04" path="res://scripts/Rotate.gd" id="10_choun"]
+[ext_resource type="AudioStream" uid="uid://b2wauii0gqsy7" path="res://assets/sounds/game_end/Lose.wav" id="10_gqmmt"]
+
+[sub_resource type="Gradient" id="Gradient_choun"]
+colors = PackedColorArray(0.396258, 0.564915, 0.678766, 1, 0.716997, 1, 0.685611, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ya4ey"]
+gradient = SubResource("Gradient_choun")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o5qli"]
 texture = ExtResource("1_o5qli")
@@ -47,7 +62,16 @@ texture = ExtResource("1_o5qli")
 [sub_resource type="TileSet" id="TileSet_0wfyh"]
 sources/0 = SubResource("TileSetAtlasSource_o5qli")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_choun"]
+bg_color = Color(0.452241, 0.671036, 0.339451, 1)
+
 [node name="Main" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(557.474, 316.173)
+rotation = 0.270118
+scale = Vector2(22.1416, 16.9412)
+texture = SubResource("GradientTexture2D_ya4ey")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(72, 69)
@@ -65,19 +89,40 @@ texture = ExtResource("3_sugp2")
 script = ExtResource("4_tbgi4")
 gameManager = NodePath("../GameManager")
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cookiesParent", "firesParent", "cursor", "label")]
+[node name="Sounds" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("4_ya4ey")
+move_ = ExtResource("5_trceg")
+eat_ = ExtResource("6_a8y0u")
+winSounds = Array[AudioStream]([ExtResource("7_muem4"), ExtResource("8_dp3eg"), ExtResource("9_0ld40")])
+lose_ = ExtResource("10_gqmmt")
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("cookiesParent", "firesParent", "cursor", "label", "winLabel", "winButton", "winUI", "loseUI", "sounds")]
 unique_name_in_owner = true
 script = ExtResource("4_jyhfs")
 cookiesParent = NodePath("../Cookies")
 firesParent = NodePath("../Fires")
 cursor = NodePath("../Cursor")
-label = NodePath("../UI/Label")
+label = NodePath("../UI/Game/Label")
+winLabel = NodePath("../UI/Win/Label")
+winButton = NodePath("../UI/Win/Button")
+winUI = NodePath("../UI/Win")
+loseUI = NodePath("../UI/Lose")
+sounds = NodePath("../Sounds")
 cookieScene = ExtResource("5_tbgi4")
 fireScene = ExtResource("6_tipki")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="UI"]
+[node name="Game" type="Panel" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_tefeu")
+
+[node name="Label" type="Label" parent="UI/Game"]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.83
 anchor_right = 0.942
@@ -90,7 +135,8 @@ text = "0/10"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="UI"]
+[node name="TextureRect" type="TextureRect" parent="UI/Game"]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.947
 anchor_right = 1.0
@@ -100,3 +146,110 @@ offset_bottom = 0.143997
 grow_horizontal = 0
 texture = ExtResource("2_0wfyh")
 expand_mode = 1
+
+[node name="Lose" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_85g3d")
+
+[node name="Label" type="Label" parent="UI/Lose"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.509
+offset_right = 1.0
+offset_bottom = 0.167999
+theme_override_colors/font_color = Color(0.807843, 0.470588, 0.0823529, 1)
+text = "Biscuits were 
+lost in fire..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/Lose"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.124083
+anchor_top = 0.526235
+anchor_right = 0.320313
+anchor_bottom = 0.88558
+offset_left = 0.0559082
+offset_bottom = -6.85602
+grow_horizontal = 0
+pivot_offset = Vector2(113, 113)
+texture = ExtResource("2_0wfyh")
+expand_mode = 1
+script = ExtResource("10_choun")
+time = 2.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="UI/Lose"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.386285
+anchor_top = 0.54321
+anchor_right = 0.857639
+anchor_bottom = 0.861111
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Try again"
+metadata/_edit_use_anchors_ = true
+
+[node name="Win" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_85g3d")
+theme_override_styles/panel = SubResource("StyleBoxFlat_choun")
+
+[node name="Label" type="Label" parent="UI/Win"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.509
+offset_right = 1.0
+offset_bottom = 0.167999
+theme_override_colors/font_color = Color(0.947605, 0.329552, 0, 1)
+text = "You saved 
+the biscuits: 3/10"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Win"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.124083
+anchor_top = 0.526235
+anchor_right = 0.320313
+anchor_bottom = 0.88558
+offset_left = 0.0559082
+offset_bottom = -6.85602
+grow_horizontal = 0
+pivot_offset = Vector2(113, 113)
+texture = ExtResource("2_0wfyh")
+expand_mode = 1
+script = ExtResource("10_choun")
+time = 2.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="UI/Win"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.386285
+anchor_top = 0.54321
+anchor_right = 0.857639
+anchor_bottom = 0.861111
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Good job!"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="UI/Lose/Button" to="GameManager" method="restart"]
+[connection signal="pressed" from="UI/Win/Button" to="GameManager" method="restart"]
